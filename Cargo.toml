@@ -1,0 +1,6 @@
+[package]
+name = "difkon"
+version = "0.1.0"
+authors = ["Trdonja <domen.monik@gmail.com>"]
+
+[dependencies]

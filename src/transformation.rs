@@ -15,7 +15,7 @@ function λ : (0,∞) -> [0, 1] and scale parameter a > 0, which shows itself in
 At given r > 0, matrix V(r) is a convex combination of Vg and I,
     V(r) = λ(a*r)*Vg + (1 - λ(a*r))*I,
 where I is 2⨯2 identity matrix and
-    Vg = s₁*v₁*v₁ᵀ + s2*v₂*v₂ᵀ,
+    Vg = s₁*v₁*v₁ᵀ + s₂*v₂*v₂ᵀ,
 is a symmetric positive definite matrix, given by
     (1) orthonormal basis {v₁, v₂} for ℝ², which is standard basis {e₁, e₂}
         rotated around origin by angle ϑ and
@@ -34,7 +34,7 @@ Transformation R(r) at given r is a rotation by angle λ(a*r)*φ and its matrix
 representation is
     ⎡cos(λ(a*r)*φ)  -sin(λ(a*r)*φ)⎤
     ⎣sin(λ(a*r)*φ)   cos(λ(a*r)*φ)⎦.
-R(r) is parametrized with angle φ and a, x₀, y₀ through term λ(a*r).
+R(r) is parametrized with angle φ and with parameters a, x₀, y₀ through term λ(a*r).
 
 The whole transformation F = F(u;θ) is parametrized with parameter vector
     θ = [x₀, y₀, ϑ, s₁, s₂, φ, a] from open subset of ℝ⁷.
@@ -154,10 +154,10 @@ impl MapF {
         }
     }
 
-    // For given u∈ℝ² and F(.;θ), represented by struct MapF, this function
+    // For given u ∈ ℝ² and F(.;θ), represented by struct MapF, this function
     // evaluates the value F(u;θ) (in type Vector).
     // FIXME: Popravi ime funkcije oz. uskladi ime s funkcijo, ki vrača tudi gradient.
-    fn eval(&self, x: f64, y: f64) -> Vector {
+    fn value_at(&self, x: f64, y: f64) -> Vector {
 
         //  d = [xd, yd]ᵀ := [x - x₀, y - y₀]ᵀ = u - u₀
         let d = Vector{x: x - self.x0, y: y - self.y0};
@@ -189,8 +189,8 @@ impl MapF {
 
     // For given u∈ℝ² and F(.;θ), represented by struct MapF, this function
     // evaluates the value F(u;θ) (in type Vector) and gradient ∂F(u;θ)/∂θ
-    // (in type GradientF).
-    fn evaluate(&self, x: f64, y: f64) -> (Vector, GradF) {
+    // (in type GradF).
+    fn value_and_gradient_at(&self, x: f64, y: f64) -> (Vector, GradF) {
 
         //  d = [xd, yd]ᵀ := [x - x₀, y - y₀]ᵀ = u - u₀
         let d = Vector{x: x - self.x0, y: y - self.y0};
@@ -234,6 +234,9 @@ impl MapF {
             element_21: mat_r.element_11   // cos(λ(a*r)*φ)
         };
         let rd = &mat_r*&d; // R*(u - u₀)
+        /* Possible OPTIMIZE: Zapiši produkt drd direktno v Vector{}. Matriko mat_dr
+         * lahko potem pobrišeš.
+         */
         let drd = &mat_dr*&d; // dR(λ(a*r))*(u - u₀)
         // z = Ξ*R(r)*(u - u₀) + φ*V(r)*dR(r)*(u - u₀)
         let z = &(self.mat_xi)*&rd + self.fi*&(&mat_v*&drd);

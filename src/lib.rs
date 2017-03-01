@@ -1,6 +1,7 @@
 pub mod matrices;
 pub mod transformation;
-//mod gridfunction;
+pub mod gridfunction;
+pub mod interpolation;
 // rustup component add rust-src
 // ~/.rustup/toolchains/<toolchain>/lib/rustlib/src/rust/src
 

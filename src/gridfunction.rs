@@ -1,16 +1,16 @@
-struct Grid {
-    size_x: i32,
-    size_y: i32,
-    spacing_x: f64,
-    spacing_y: f64
+pub struct Grid {
+    pub size_x: usize,
+    pub size_y: usize,
+    pub spacing_x: f64,
+    pub spacing_y: f64
 }
 
-struct GridImage {
-    grid: Grid,
-    values: Vec<f64>
+pub struct GridImage {
+    pub grid: Grid,
+    pub values: Vec<f64>
 }
 
-impl GridImage {
+/*impl GridImage {
 
 /*
     fn create(size_x: i32, size_y: i32, spacing_x: f64, spacing_y: f64, values: Vec<f64>) -> Result<GridImage, String> {
@@ -41,5 +41,5 @@ impl GridImage {
         // FIXME: Deli z dolžino intervalov. Zaenkrat velja samo, če so dolgi 1.
     }
 
-}
+}*/
 
